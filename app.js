@@ -1,5 +1,6 @@
 
 const path = require('path')
+const cors = require('cors')
 const express = require('express')
 const compression = require('compression')
 const AppError = require('./utils/appError')
@@ -13,6 +14,10 @@ app.use(express.json())
 app.use('/assets', express.static(path.join(__dirname, 'assets')))
 
 app.use(compression());
+
+app.use(cors({
+  origin: '*', 
+}))
 
 app.use('/api/characters', characterRouter)
 
