@@ -14,7 +14,7 @@ exports.getAllCharacters = catchAsync(async (req, res) => {
     return { 
       ...characterObject,
       image: characterObject.image 
-        ? `${req.protocol}://${req.get('host')}/assets/${characterObject.image.replace('.png', '.jpeg')}`
+        ? `https://${req.get('host')}/assets/${characterObject.image.replace('.png', '.jpeg')}`
         : undefined, 
     }
   }).sort((a, b) => a.name.localeCompare(b.name))
@@ -44,7 +44,7 @@ exports.getCharacter = catchAsync(async (req, res, next) => {
     data: { 
       ...characterObject,
       image: characterObject.image 
-      ? `${req.protocol}://${req.get('host')}/assets/${characterObject.image.replace('.png', '.jpeg')}`
+      ? `https://${req.get('host')}/assets/${characterObject.image.replace('.png', '.jpeg')}`
       : undefined, 
      },
   })
