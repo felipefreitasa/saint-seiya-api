@@ -17,7 +17,7 @@ exports.getAllCharacters = catchAsync(async (req, res) => {
         ? `${req.protocol}://${req.get('host')}/assets/${characterObject.image.replace('.png', '.jpeg')}`
         : undefined, 
     }
-  })
+  }).sort((a, b) => a.name.localeCompare(b.name))
 
   res.status(200).json({
     status: 'success',
