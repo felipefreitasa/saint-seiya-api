@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+const AppError = require('./../utils/appError')
 const catchAsync = require('../utils/catchAsync')
 const APIFeatures = require('../utils/apiFeatures')
 const Character = require('../models/characterModel')
@@ -24,16 +26,26 @@ exports.getAllCharacters = catchAsync(async (req, res) => {
   })
 })
 
-exports.createCharacter = catchAsync(async (req, res) => {
-  const newCharacter = await Character.create(req.body)
+exports.getCharacter = catchAsync(async (req, res, next) => {
+  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+    return next(new AppError('No character found for this ID', 400));
+  }
 
-  res.status(201).json({
+  const character = await Character.findById(req.params.id)
+
+  if(!character || !mongoose.Types.ObjectId.isValid(req.params.id)){
+    return next(new AppError(`No character found for this ID`, 404))
+  }
+
+  const characterObject = character.toObject()
+
+  res.status(200).json({
     status: 'success',
-    data: {
-      character: {
-        ...newCharacter.toObject(),
-        image: `${req.protocol}://${req.get('host')}/assets/${newCharacter.image}`
-      },
-    },
+    data: { 
+      ...characterObject,
+      image: characterObject.image 
+      ? `${req.protocol}://${req.get('host')}/assets/${characterObject.image.replace('.png', '.jpeg')}`
+      : undefined, 
+     },
   })
 })

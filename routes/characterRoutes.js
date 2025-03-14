@@ -6,6 +6,9 @@ const router = express.Router()
 router
   .route('/')
   .get(characterController.getAllCharacters)
-  .post(characterController.createCharacter)
+
+router
+  .route('/:id')
+  .get(characterController.getCharacter)
 
 module.exports = router
