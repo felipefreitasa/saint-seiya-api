@@ -1,11 +1,14 @@
 
 const path = require('path')
 const cors = require('cors')
+const dotenv = require('dotenv')
 const express = require('express')
 const compression = require('compression')
 const AppError = require('./utils/appError')
 const characterRouter = require('./routes/characterRoutes')
 const globalErrorHandler = require('./controllers/errorController')
+
+dotenv.config({path: './.env'})
 
 const app = express();
 
@@ -18,6 +21,16 @@ app.use(compression());
 app.use(cors({
   origin: '*', 
 }))
+
+if (process.env.NODE_ENV === 'production') {
+  app.use((req, res, next) => {
+    if (req.headers['x-forwarded-proto'] !== 'https') {
+      return res.redirect('https://' + req.hostname + req.url)
+    }
+
+    next()
+  });
+}
 
 app.use('/api/characters', characterRouter)
 
