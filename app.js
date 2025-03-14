@@ -1,14 +1,11 @@
 
 const path = require('path')
 const cors = require('cors')
-const dotenv = require('dotenv')
 const express = require('express')
 const compression = require('compression')
 const AppError = require('./utils/appError')
 const characterRouter = require('./routes/characterRoutes')
 const globalErrorHandler = require('./controllers/errorController')
-
-dotenv.config({path: './.env'})
 
 const app = express();
 
