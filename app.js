@@ -14,7 +14,7 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')))
 
 app.use(compression());
 
-app.use('/api/v1/characters', characterRouter)
+app.use('/api/characters', characterRouter)
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
