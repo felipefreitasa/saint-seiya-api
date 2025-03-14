@@ -19,6 +19,13 @@ app.use(cors({
   origin: '*', 
 }))
 
+app.use((req, res, next) => {
+  if (req.headers["x-forwarded-proto"] !== "https") {
+    return res.redirect(`https://${req.hostname}${req.url}`)
+  }
+  next()
+});
+
 app.use('/api/characters', characterRouter)
 
 app.all('*', (req, res, next) => {
