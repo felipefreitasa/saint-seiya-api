@@ -1,5 +1,5 @@
-
 const path = require('path')
+const cors = require('cors')
 const express = require('express')
 const compression = require('compression')
 const AppError = require('./utils/appError')
@@ -8,11 +8,23 @@ const globalErrorHandler = require('./controllers/errorController')
 
 const app = express();
 
+const allowedOrigins = process.env.NODE_ENV === 'production'
+  ? ["https://saintseiyaapi.com"]
+  : ["http://localhost:3000", "http://127.0.0.1:3000"]; 
+
 app.use(express.json())
 
 app.use('/assets', express.static(path.join(__dirname, 'assets')))
 
 app.use(compression());
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
 
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
@@ -32,4 +44,4 @@ app.all('*', (req, res, next) => {
 
 app.use(globalErrorHandler)
 
-module.exports = app
+module.exports = app;
