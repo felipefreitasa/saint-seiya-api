@@ -15,9 +15,13 @@ app.use('/assets', express.static(path.join(__dirname, 'assets')))
 
 app.use(compression());
 
-app.use(cors({
-  origin: '*', 
-}))
+app.use(
+  cors({
+    origin: ["https://saintseiyaapi.com"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);
 
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
