@@ -1,6 +1,5 @@
 
 const path = require('path')
-const cors = require('cors')
 const express = require('express')
 const compression = require('compression')
 const AppError = require('./utils/appError')
@@ -14,16 +13,6 @@ app.use(express.json())
 app.use('/assets', express.static(path.join(__dirname, 'assets')))
 
 app.use(compression());
-
-if (process.env.NODE_ENV === 'production') {
-  app.use(
-    cors({
-      origin: ["https://saintseiyaapi.com"],
-      methods: ["GET", "POST", "PUT", "DELETE"],
-      credentials: true
-    })
-  );
-}
 
 if (process.env.NODE_ENV === 'production') {
   app.use((req, res, next) => {
