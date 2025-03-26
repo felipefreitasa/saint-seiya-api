@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-app.use('/characters', characterRouter)
+app.use('/api/characters', characterRouter)
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404))
