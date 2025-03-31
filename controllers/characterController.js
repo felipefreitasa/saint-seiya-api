@@ -5,26 +5,29 @@ const APIFeatures = require('../utils/apiFeatures')
 const Character = require('../models/characterModel')
 
 exports.getAllCharacters = catchAsync(async (req, res) => {
-  const features = new APIFeatures(Character.find(), req.query).paginate()
-  const characters = await features.query
+  const features = new APIFeatures(Character.find(), req.query);
+  await features.paginate(); 
+
+  const characters = await features.query;
 
   const charactersWithImageUrl = characters.map(character => {
-    const characterObject = character.toObject()
+    const characterObject = character.toObject();
 
     return { 
       ...characterObject,
       image: characterObject.image 
         ? `https://${req.get('host')}/assets/${characterObject.image.replace('.png', '.jpeg')}`
         : undefined, 
-    }
-  }).sort((a, b) => a.name.localeCompare(b.name))
+    };
+  }).sort((a, b) => a.name.localeCompare(b.name));
 
   res.status(200).json({
     status: 'success',
     results: characters.length,
+    pagination: features.paginationData, 
     data: { characters: charactersWithImageUrl },
-  })
-})
+  });
+});
 
 exports.getCharacter = catchAsync(async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
