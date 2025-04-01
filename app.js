@@ -11,7 +11,7 @@ const globalErrorHandler = require('./controllers/errorController')
 const app = express();
 
 const allowedOrigins = process.env.NODE_ENV === 'production'
-? ["https://saintseiyaapi.com"]
+? ["https://saintseiyaapi.com", "https://saintseiyaapi-71b85b0cc3ba.herokuapp.com"]
 : ["http://localhost:3000", "http://127.0.0.1:3000"]; 
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
