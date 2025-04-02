@@ -9,6 +9,7 @@ const router = express.Router()
  *   get:
  *     summary: Retrieves all characters
  *     description: Returns a paginated list of Saint Seiya characters.
+ *     tags: [Characters]
  *     responses:
  *       200:
  *         description: Successfully retrieved the characters list.
@@ -125,6 +126,7 @@ router
  *   get:
  *     summary: Retrieves a specific character by ID
  *     description: Returns the details of a Saint Seiya character based on the provided character ID.
+ *     tags: [Characters]
  *     parameters:
  *       - name: id
  *         in: path
