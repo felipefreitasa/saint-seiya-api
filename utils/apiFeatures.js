@@ -6,7 +6,7 @@ class APIFeatures {
   }
 
   async paginate() {
-    const totalItems = await this.query.model.countDocuments(); 
+    const totalItems = await this.query.clone().countDocuments(); 
 
     const limit = this.queryString.limit ? Number(this.queryString.limit) : 20; 
     const page = this.queryString.page ? Number(this.queryString.page) : 1; 

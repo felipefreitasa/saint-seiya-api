@@ -5,9 +5,18 @@ const APIFeatures = require('../utils/apiFeatures')
 const Character = require('../models/characterModel')
 
 exports.getAllCharacters = catchAsync(async (req, res) => {
-  const features = new APIFeatures(Character.find(), req.query);
-  await features.paginate(); 
 
+  const { rank } = req.query;
+
+  let query = Character.find();
+
+  if (rank) {
+    query = query.where('rank').equals(rank);
+  }
+
+  const features = new APIFeatures(query, req.query);
+  await features.paginate(); 
+  
   const characters = await features.query;
 
   const charactersWithImageUrl = characters.map(character => {
